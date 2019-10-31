@@ -1,0 +1,2 @@
+module GossipCommentHelper
+end

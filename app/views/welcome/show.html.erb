@@ -1,0 +1,30 @@
+
+<main role="main">
+<!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">BIENVENUE <%=params[:id]%> !</h1>
+      <p>Ici c'est notre super site de potins, il est chouette, non ?</p>
+      <a class="btn btn-dark" <%= link_to "Cree un nouveau gossip", new_gossip_path%></a>
+    </div>
+  </div>
+
+  <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+          <%Gossip.all.each do |gossip|%>
+          <div class="col-md-4 mb-4">
+            <h2>Gossip #<%=gossip.id%></h2>
+            <h5><%=gossip.title%></h5>
+            <p><%=User.find(gossip.user_id).first_name%> <%=User.find(gossip.user_id).last_name%></p>
+            <p><a class="btn btn-dark" <%= link_to "Voir", gossip_path(gossip.id)%></a></p>
+          </div>
+          <%end%>
+        </div>
+
+        <hr>
+
+  </div> <!-- /container -->
+
+
+</main>

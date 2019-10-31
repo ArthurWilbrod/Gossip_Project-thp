@@ -1,0 +1,66 @@
+<div class="card">
+  <div class="card-header">
+    <div class="font-weight-bold">Gossip n°<%=params[:id]%></div>
+    <div class="text-muted"><%Gossip.find(params[:id]).tags.each do |item| %>
+    	#<%=item.title%>
+    	<%end%>
+    	</div>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Title: <%= Gossip.find(params[:id]).title%></h5>
+    <p class="card-text">Content: <%= Gossip.find(params[:id]).content%></p>
+    <a hclass="btn btn-dark"<%= link_to "Author: #{User.find(Gossip.find(params[:id]).user_id).first_name} #{User.find(Gossip.find(params[:id]).user_id).last_name}", author_path(Gossip.find(params[:id]).user_id.to_i)%></a>
+    <% user_id= Gossip.find(params[:id]).user_id %>
+    <p></p>
+    <a hclass="btn btn-dark"<%= link_to "City: #{User.find(user_id).city.name}" , city_path(User.find(user_id).city)%></a>
+    <% if current_user %>
+    <% if current_user.id == user_id  %>
+    <p></p>
+    <a class="btn btn-dark" <%= link_to "Update Gossip n° #{params[:id]}", edit_gossip_path(params[:id])%></a>
+    <p></p>
+    <a class="btn btn-dark" data-method="DELETE" <%= link_to "Delete Gossip n° #{params[:id]}", gossip_path(params[:id])%> </a>
+    <%end%>
+    <%end%>
+  </div>
+</div>
+
+<div class="card">
+  <h5>Comments</h5>
+
+  <%Comment.where(gossip_id:params[:id]).each do |comment| %>
+  <div class="card-body">
+    <div class="card">
+      <div class="card-body">
+        <%= comment.content  %>
+        <% if current_user %>
+        <% if current_user.id == comment.user_id  %>
+
+        <a class="btn btn-dark" data-method="DELETE" <%= link_to "Delete", gossip_comment_path(params[:id],comment.id)%> </a>
+        
+        <a class="btn btn-dark" <%= link_to "Update", edit_gossip_comment_path(params[:id],comment.id)%></a>
+        <%end%>
+        <%end%>
+      </div>
+
+    </div>
+
+  </div>
+  <%end%>
+
+
+</div>
+
+<div class="card">
+  <p></p>
+  <h5>Add Comment</h5>
+
+  <form action="<%= gossip_comments_path(params[:id]) %>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <div class="form-group">
+        <label for="input_first">Ecris ton commentaire</label>
+        <input type="text" name="user_comment" class="form-control" id="input_first" placeholder="Enter comment">
+      </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+</div>

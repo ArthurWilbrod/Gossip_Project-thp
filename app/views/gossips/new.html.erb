@@ -1,0 +1,14 @@
+<h2>NEW Gossip</h2>
+
+<form action= <%= gossips_path %> method="POST">
+  <input type="hidden" name="authenticity_token" value=<%= form_authenticity_token %> >
+  <div class="form-group">
+    <label for="exampleInputEmail1">Title</label>
+    <input  class="form-control"  type="text" name="gossip_title" placeholder="Enter title">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Content</label>
+    <input  class="form-control" type="text" name="gossip_content" placeholder="Content">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

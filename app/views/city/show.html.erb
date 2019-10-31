@@ -1,0 +1,37 @@
+<div class="card">
+  <div class="card-header">
+    <div class="font-weight-bold"><%=City.find(params[:id]).name%></div>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">zip_code: <%= City.find(params[:id]).zip_code%></h5>
+    <p class="card-text">created_at: <%= City.find(params[:id]).created_at%></p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+  <h4>Related Gossip</h4>
+  </div>
+</div>
+
+
+
+<div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <% User.where(city_id: params[:id]).each do |user| %>
+        <% Gossip.where(user_id: user).each do |gossip| %>
+        <div class="col-md-4 mb-4">
+          <h2>Gossip #<%=gossip.id%></h2>
+          <h5><%=gossip.title%></h5>
+          <p><%=user.first_name%> <%=user.last_name%></p>
+          <p><%=City.find(user.city_id).name%></p>
+          <p><a class="btn btn-dark" <%= link_to "Voir", gossip_path(gossip.id)%></a></p>
+        </div>
+        <%end%>
+        <%end%>
+      </div>
+
+      <hr>
+
+</div> <!-- /container -->
